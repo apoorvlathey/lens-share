@@ -5,6 +5,18 @@ const config: ThemeConfig = {
   useSystemColorMode: false,
 };
 
-const theme = extendTheme({ config });
+const colors = {
+  brand: {
+    dark: "#039700",
+    light: "#45B649",
+    text: "#026000",
+  },
+};
+
+const fonts = {
+  body: `'Poppins', sans-serif`,
+};
+
+const theme = extendTheme({ config, colors, fonts });
 
 export default theme;
