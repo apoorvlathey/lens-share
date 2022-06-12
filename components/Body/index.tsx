@@ -125,7 +125,8 @@ function Body() {
                     fontWeight={"bold"}
                     color="white"
                     bgColor={"red.400"}
-                    p="0.5rem"
+                    py="0.5rem"
+                    px="1rem"
                     rounded="lg"
                   >{`⚠️ Lens Profile doesn't exist`}</Text>
                   <HStack color="white">
@@ -155,6 +156,7 @@ function Body() {
               onClick={() => createPost(tweetText, tweetMedia)}
               isLoading={isPosting}
               loadingText={loadingText}
+              disabled={!lensHandle}
             >
               POST 🌿
             </Button>
