@@ -1,5 +1,6 @@
 import React from "react";
-import { Flex, Heading, Image, HStack } from "@chakra-ui/react";
+import { Flex, Heading, Image, HStack, Spacer, Box } from "@chakra-ui/react";
+import Account from "../Body/Account";
 
 function Navbar() {
   return (
@@ -16,6 +17,8 @@ function Navbar() {
           Lens share
         </Heading>
       </HStack>
+      <Spacer />
+      <Account />
     </Flex>
   );
 }

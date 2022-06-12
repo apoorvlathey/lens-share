@@ -9,8 +9,12 @@ import {
   Button,
   VStack,
 } from "@chakra-ui/react";
+import { useAccount } from "wagmi";
+import ConnectWallet from "./ConnectWallet";
 
 function Body() {
+  const { data: account } = useAccount();
+
   return (
     <Box
       h="100vh"
@@ -31,19 +35,13 @@ function Body() {
               w="35rem"
               borderColor={"brand.text"}
               rounded={"lg"}
-            />
-            <Button
-              bgColor={"brand.light"}
-              fontWeight="bold"
-              color={"white"}
-              border="2px solid"
-              borderColor={"brand.text"}
-              _hover={{
-                bgColor: "brand.text",
+              autoComplete="off"
+              placeholder="https://twitter.com/username/status/1234"
+              _placeholder={{
+                color: "gray.300",
               }}
-            >
-              Connect Wallet
-            </Button>
+            />
+            {!account?.address && <ConnectWallet />}
           </VStack>
         </Box>
       </Center>

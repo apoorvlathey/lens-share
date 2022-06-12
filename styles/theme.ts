@@ -8,6 +8,7 @@ const config: ThemeConfig = {
 const colors = {
   brand: {
     dark: "#039700",
+    darker: "#054d03",
     light: "#45B649",
     text: "#026000",
   },
