@@ -12,13 +12,13 @@ function ConnectWallet() {
   return (
     <>
       <Button
-        bgColor={"brand.light"}
+        bgColor={"green.500"}
         fontWeight="bold"
         color={"white"}
         border="2px solid"
-        borderColor={"brand.text"}
+        borderColor={"green.600"}
         _hover={{
-          bgColor: "brand.text",
+          bgColor: "green.600",
         }}
         onClick={handleConnectWallet}
         isLoading={isConnecting}

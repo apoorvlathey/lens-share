@@ -83,20 +83,22 @@ function Body() {
           <Spinner />
         ) : (
           <Box>
-            <Text color={"brand.text"} fontWeight="extrabold">
+            <Text color={"green.800"} fontWeight="extrabold">
               Enter Tweet URL
             </Text>
             <VStack>
               <Input
                 bgColor={"white"}
                 w="35rem"
-                borderColor={"brand.text"}
+                borderColor={"green.800"}
                 rounded={"lg"}
                 autoComplete="off"
                 placeholder="https://twitter.com/username/status/1234"
                 _placeholder={{
                   color: "gray.300",
                 }}
+                isReadOnly={!account?.address}
+                cursor={!account?.address ? "not-allowed" : "auto"}
                 onPaste={onPaste}
               />
               {!account?.address && <ConnectWallet />}
@@ -106,15 +108,16 @@ function Body() {
         {tweetText && (
           <Center flexDir={"column"} mt="2rem">
             <Button
-              color={"brand.light"}
+              color={"white"}
               fontWeight="bold"
-              bgColor={"white"}
+              bgColor={"green.600"}
               border="2px solid"
-              borderColor={"brand.text"}
+              borderColor={"green.600"}
               _hover={{
-                bgColor: "brand.light",
+                bgColor: "green.800",
                 color: "white",
               }}
+              boxShadow="lg"
               onClick={() => createPost(tweetText, tweetMedia)}
             >
               POST 🌿

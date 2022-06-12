@@ -40,10 +40,10 @@ const AccountModal = ({ isOpen, onClose }: Props) => {
     <Modal isOpen={isOpen} onClose={onClose} isCentered size="md">
       <ModalOverlay />
       <ModalContent
-        background="brand.darker"
+        background="green.900"
         border="1px"
         borderStyle="solid"
-        borderColor="brand.light"
+        borderColor="green.400"
         borderRadius="3xl"
       >
         <ModalHeader color="white" px={4} fontSize="lg" fontWeight="medium">
@@ -61,14 +61,14 @@ const AccountModal = ({ isOpen, onClose }: Props) => {
             borderRadius="3xl"
             border="1px"
             borderStyle="solid"
-            borderColor="brand.light"
+            borderColor="green.400"
             px={5}
             pt={4}
             pb={2}
             mb={3}
           >
             <Flex justifyContent="space-between" alignItems="center" mb={3}>
-              <Text color="brand.light" fontSize="sm">
+              <Text color="green.400" fontSize="sm">
                 Connected with {account?.connector?.name}
               </Text>
               <Button
@@ -155,7 +155,7 @@ const AccountModal = ({ isOpen, onClose }: Props) => {
 
         <ModalFooter
           justifyContent="end"
-          background="brand.darker"
+          background="green.900"
           borderBottomLeftRadius="3xl"
           borderBottomRightRadius="3xl"
           p={4}

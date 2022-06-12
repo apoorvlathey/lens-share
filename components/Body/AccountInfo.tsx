@@ -20,7 +20,7 @@ const AccountInfo = ({ handleOpenModal }: Props) => {
       <Box
         display="flex"
         alignItems="center"
-        background="brand.light"
+        background="green.500"
         borderRadius="xl"
         py="1"
         pr="2"
@@ -38,7 +38,7 @@ const AccountInfo = ({ handleOpenModal }: Props) => {
         </Box>
         <Button
           onClick={handleOpenModal}
-          bg="brand.darker"
+          bg="green.700"
           border="1px solid transparent"
           _hover={{
             border: "1px",
