@@ -11,6 +11,7 @@ import {
   Spinner,
   Image,
   Button,
+  Flex,
 } from "@chakra-ui/react";
 import { useAccount } from "wagmi";
 import axios from "axios";
@@ -77,7 +78,7 @@ function Body() {
         "linear-gradient(45deg, rgba(69,182,73,1) 0%, rgba(235,244,64,1) 100%)"
       }
     >
-      <Center pt="15rem" flexDir={"column"}>
+      <Center pt={tweetText ? "4rem" : "15rem"} flexDir={"column"}>
         {isFetching ? (
           <Spinner />
         ) : (
@@ -102,24 +103,44 @@ function Body() {
             </VStack>
           </Box>
         )}
-        <Button onClick={() => createPost(tweetText, tweetMedia)}>POST</Button>
-        <Box mt="2rem" maxW="70rem" bgColor={"white"}>
-          {tweetText && <Text>{tweetText}</Text>}
-          <HStack>
-            {tweetMedia &&
-              tweetMedia.map((m, i) => {
-                return (
-                  <Image
-                    key={i}
-                    src={m.url}
-                    alt={m.url}
-                    maxW="30rem"
-                    rounded="lg"
-                  />
-                );
-              })}
-          </HStack>
-        </Box>
+        {tweetText && (
+          <Center flexDir={"column"} mt="2rem">
+            <Button
+              color={"brand.light"}
+              fontWeight="bold"
+              bgColor={"white"}
+              border="2px solid"
+              borderColor={"brand.text"}
+              _hover={{
+                bgColor: "brand.light",
+                color: "white",
+              }}
+              onClick={() => createPost(tweetText, tweetMedia)}
+            >
+              POST 🌿
+            </Button>
+            <Box
+              mt="0.5rem"
+              w="60rem"
+              py="1rem"
+              px="2rem"
+              bgColor={"white"}
+              rounded="xl"
+            >
+              <Text>{tweetText}</Text>
+              <Flex mt="1rem">
+                {tweetMedia &&
+                  tweetMedia.map((m, i) => {
+                    return (
+                      <Box key={i} maxW="30rem" ml="0.5rem">
+                        <Image src={m.url} alt={m.url} rounded="lg" />
+                      </Box>
+                    );
+                  })}
+              </Flex>
+            </Box>
+          </Center>
+        )}
       </Center>
     </Box>
   );

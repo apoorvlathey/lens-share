@@ -232,20 +232,15 @@ export const LensProvider = ({ children }: { children?: React.ReactNode }) => {
       type: string;
     }[] = [];
     if (tweetMedia) {
-      image = await uploadFromURLToIpfs(tweetMedia[0].url!);
-      imageMimeType = await getImageMimeType(tweetMedia[0].url!);
-
-      media.push({
-        item: await uploadFromURLToIpfs(tweetMedia[0].url!),
-        type: imageMimeType,
-      });
-
-      for (var i = 1; i < tweetMedia.length; i++) {
+      for (var i = 0; i < tweetMedia.length; i++) {
         media.push({
           item: await uploadFromURLToIpfs(tweetMedia[i].url!),
           type: await getImageMimeType(tweetMedia[i].url!),
         });
       }
+
+      image = media[0].item;
+      imageMimeType = media[0].type;
     }
 
     const ipfsResult = await uploadIpfs<Metadata>({
