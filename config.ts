@@ -1,6 +1,8 @@
 import { chain } from "wagmi";
 
-export const targetChain = chain.polygonMumbai;
+export const targetChain = process.env.NEXT_PUBLIC_USE_TESTNET
+  ? chain.polygonMumbai
+  : chain.polygon;
 
 export const chainIdToConfig = {
   [chain.polygonMumbai.id]: {
