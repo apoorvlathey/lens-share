@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import dynamic from "next/dynamic";
 import {
+  chakra,
   Box,
   Center,
   Text,
@@ -37,10 +38,10 @@ function Body() {
 
       if (item.kind === "string" && item.type === "text/plain") {
         const tweetURL = e.clipboardData.getData("Text");
-        const tweetId = tweetURL.split("/").pop()?.split("?")[0];
+        const _tweetId = tweetURL.split("/").pop()?.split("?")[0];
 
         try {
-          const res = await axios(`/api/getTweet/${tweetId}`);
+          const res = await axios(`/api/getTweet/${_tweetId}`);
           const { data: resData } = res;
           let _tweetText = htmlDecode(resData.data.text);
 

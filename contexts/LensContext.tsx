@@ -8,7 +8,7 @@ import {
   useSignTypedData,
 } from "wagmi";
 import { v4 as uuidv4 } from "uuid";
-import { uploadIpfs } from "../utils/ipfs";
+import { uploadFromURLToIpfs, uploadIpfs } from "../utils/ipfs";
 import { Metadata } from "../interfaces/publication";
 import { omit, prettyJSON } from "../utils/helpers";
 import { ethers } from "ethers";
@@ -225,7 +225,6 @@ export const LensProvider = ({ children }: { children?: React.ReactNode }) => {
     }
     await login();
 
-    // TODO: upload images to IPFS before posting to Lens
     let image: null | string = null;
     let imageMimeType: null | string = null;
     let media: {
@@ -234,18 +233,18 @@ export const LensProvider = ({ children }: { children?: React.ReactNode }) => {
     }[] = [];
     if (tweetMedia) {
       if (tweetMedia[0].type === "photo") {
-        image = tweetMedia[0].url!;
-        imageMimeType = await getImageMimeType(image);
+        image = await uploadFromURLToIpfs(tweetMedia[0].url!);
+        imageMimeType = await getImageMimeType(tweetMedia[0].url!);
 
         media.push({
-          item: image,
+          item: await uploadFromURLToIpfs(tweetMedia[0].url!),
           type: imageMimeType,
         });
       }
       for (var i = 1; i < tweetMedia.length; i++) {
         if (tweetMedia[i].type === "photo") {
           media.push({
-            item: tweetMedia[i].url!,
+            item: await uploadFromURLToIpfs(tweetMedia[i].url!),
             type: await getImageMimeType(tweetMedia[i].url!),
           });
         }
@@ -274,7 +273,7 @@ export const LensProvider = ({ children }: { children?: React.ReactNode }) => {
 
     const createPostRequest = {
       profileId,
-      contentURI: "ipfs://" + ipfsResult.path,
+      contentURI: ipfsResult,
       collectModule: {
         freeCollectModule: { followerOnly: false },
       },
