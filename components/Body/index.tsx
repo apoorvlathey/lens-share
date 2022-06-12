@@ -12,6 +12,8 @@ import {
   Image,
   Button,
   Flex,
+  Link,
+  Heading,
 } from "@chakra-ui/react";
 import { useAccount } from "wagmi";
 import axios from "axios";
@@ -21,6 +23,7 @@ const ConnectWallet = dynamic(() => import("./ConnectWallet"), {
 import { useLens } from "../../contexts/LensContext";
 import { TweetMedia } from "../../interfaces/TweetMedia";
 import { htmlDecode } from "../../utils/helpers";
+import { ExternalLinkIcon } from "@chakra-ui/icons";
 
 function Body() {
   const { data: account } = useAccount();
@@ -28,7 +31,7 @@ function Body() {
   const [tweetText, setTweetText] = useState<string>();
   const [tweetMedia, setTweetMedia] = useState<TweetMedia[]>();
 
-  const { createPost, loadingText, isLoading } = useLens();
+  const { lensHandle, createPost, loadingText, isLoading } = useLens();
 
   const onPaste = async (e: React.ClipboardEvent) => {
     setIsFetching(true);
@@ -72,13 +75,21 @@ function Body() {
   };
 
   return (
-    <Box
-      minH="100vh"
+    <Flex
+      flex={1}
+      flexDir="column"
+      justifyContent="flex-start"
+      alignItems="center"
       bgGradient={
         "linear-gradient(45deg, rgba(69,182,73,1) 0%, rgba(235,244,64,1) 100%)"
       }
     >
-      <Center pt={tweetText ? "4rem" : "15rem"} flexDir={"column"}>
+      {!tweetText && (
+        <Heading pt="10rem" color="white">
+          Post your Tweets to Lens Protocol 🌿
+        </Heading>
+      )}
+      <Center pt="5rem" flexDir={"column"}>
         {isFetching ? (
           <Spinner />
         ) : (
@@ -97,11 +108,28 @@ function Body() {
                 _placeholder={{
                   color: "gray.300",
                 }}
-                isReadOnly={!account?.address}
-                cursor={!account?.address ? "not-allowed" : "text"}
+                isReadOnly={!lensHandle}
+                cursor={!lensHandle ? "not-allowed" : "text"}
                 onPaste={onPaste}
               />
               {!account?.address && <ConnectWallet />}
+              {account?.address && !lensHandle && (
+                <VStack pt="2rem">
+                  <Text
+                    fontWeight={"bold"}
+                    color="white"
+                    bgColor={"red.400"}
+                    p="0.5rem"
+                    rounded="lg"
+                  >{`⚠️ Lens Profile doesn't exist`}</Text>
+                  <HStack color="white">
+                    <Text>Claim your profile at</Text>
+                    <Link href="https://www.lensfrens.xyz/" isExternal>
+                      https://www.lensfrens.xyz/ <ExternalLinkIcon />
+                    </Link>
+                  </HStack>
+                </VStack>
+              )}
             </VStack>
           </Box>
         )}
@@ -147,7 +175,7 @@ function Body() {
           </Center>
         )}
       </Center>
-    </Box>
+    </Flex>
   );
 }
 

@@ -242,7 +242,7 @@ export const LensProvider = ({ children }: { children?: React.ReactNode }) => {
       },
       async onSuccess(data) {
         toast({
-          title: "Transaction pending...",
+          title: "Transaction initiated",
           status: "info",
           position: "bottom-right",
           isClosable: true,

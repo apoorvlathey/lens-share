@@ -1,14 +1,14 @@
 import type { NextPage } from "next";
-import { Box } from "@chakra-ui/react";
+import { Flex } from "@chakra-ui/react";
 import Navbar from "../components/Navbar";
 import Body from "../components/Body";
 
 const Home: NextPage = () => {
   return (
-    <Box>
+    <Flex flexDir={"column"} minH="100vh">
       <Navbar />
       <Body />
-    </Box>
+    </Flex>
   );
 };
 
