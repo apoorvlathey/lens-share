@@ -47,7 +47,15 @@ function Body() {
 
           let _tweetMedia;
           if (resData.includes) {
-            _tweetMedia = resData.includes.media;
+            _tweetMedia = resData.includes.media.filter(
+              (m: { type: "photo" | "video" }) => m.type === "photo"
+            );
+
+            // remove t.co link from tweet text
+            _tweetText = _tweetText
+              .split("https://t.co/")
+              .slice(0, -1)
+              .join("");
           }
 
           console.log({ _tweetText, _tweetMedia });
@@ -100,17 +108,15 @@ function Body() {
           <HStack>
             {tweetMedia &&
               tweetMedia.map((m, i) => {
-                if (m.type === "photo") {
-                  return (
-                    <Image
-                      key={i}
-                      src={m.url}
-                      alt={m.url}
-                      maxW="30rem"
-                      rounded="lg"
-                    />
-                  );
-                }
+                return (
+                  <Image
+                    key={i}
+                    src={m.url}
+                    alt={m.url}
+                    maxW="30rem"
+                    rounded="lg"
+                  />
+                );
               })}
           </HStack>
         </Box>

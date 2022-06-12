@@ -232,22 +232,19 @@ export const LensProvider = ({ children }: { children?: React.ReactNode }) => {
       type: string;
     }[] = [];
     if (tweetMedia) {
-      if (tweetMedia[0].type === "photo") {
-        image = await uploadFromURLToIpfs(tweetMedia[0].url!);
-        imageMimeType = await getImageMimeType(tweetMedia[0].url!);
+      image = await uploadFromURLToIpfs(tweetMedia[0].url!);
+      imageMimeType = await getImageMimeType(tweetMedia[0].url!);
 
-        media.push({
-          item: await uploadFromURLToIpfs(tweetMedia[0].url!),
-          type: imageMimeType,
-        });
-      }
+      media.push({
+        item: await uploadFromURLToIpfs(tweetMedia[0].url!),
+        type: imageMimeType,
+      });
+
       for (var i = 1; i < tweetMedia.length; i++) {
-        if (tweetMedia[i].type === "photo") {
-          media.push({
-            item: await uploadFromURLToIpfs(tweetMedia[i].url!),
-            type: await getImageMimeType(tweetMedia[i].url!),
-          });
-        }
+        media.push({
+          item: await uploadFromURLToIpfs(tweetMedia[i].url!),
+          type: await getImageMimeType(tweetMedia[i].url!),
+        });
       }
     }
 
