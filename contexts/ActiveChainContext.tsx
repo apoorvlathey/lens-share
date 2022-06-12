@@ -10,7 +10,7 @@ import {
   ModalBody,
   ModalFooter,
 } from "@chakra-ui/react";
-import { useNetwork, useAccount } from "wagmi";
+import { useNetwork } from "wagmi";
 import { targetChain } from "../config";
 
 type ActiveChainContextType = {};
@@ -23,7 +23,6 @@ export const ActiveChainProvider = ({
   children?: React.ReactNode;
 }) => {
   const { activeChain, switchNetwork, isLoading } = useNetwork();
-  const { data: account } = useAccount();
 
   const {
     isOpen: isModalOpen,
@@ -40,10 +39,6 @@ export const ActiveChainProvider = ({
       }
     }
   }, [activeChain, switchNetwork]);
-
-  useEffect(() => {
-    console.log({ account, activeChain });
-  }, [account, activeChain]);
 
   return (
     <ActiveChainContext.Provider value={{}}>

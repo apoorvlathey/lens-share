@@ -1,6 +1,9 @@
 import React from "react";
+import dynamic from "next/dynamic";
 import { useDisclosure } from "@chakra-ui/react";
-import AccountInfo from "./AccountInfo";
+const AccountInfo = dynamic(() => import("./AccountInfo"), {
+  ssr: false,
+});
 import AccountModal from "./AccountModal";
 
 function Account() {

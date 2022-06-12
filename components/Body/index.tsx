@@ -1,16 +1,10 @@
 import React from "react";
-import {
-  Box,
-  Center,
-  Text,
-  Input,
-  HStack,
-  Spacer,
-  Button,
-  VStack,
-} from "@chakra-ui/react";
+import dynamic from "next/dynamic";
+import { Box, Center, Text, Input, HStack, VStack } from "@chakra-ui/react";
 import { useAccount } from "wagmi";
-import ConnectWallet from "./ConnectWallet";
+const ConnectWallet = dynamic(() => import("./ConnectWallet"), {
+  ssr: false,
+});
 
 function Body() {
   const { data: account } = useAccount();

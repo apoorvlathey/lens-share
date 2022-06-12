@@ -1,11 +1,6 @@
 import { Button, Box, Text, Skeleton, Image, Center } from "@chakra-ui/react";
-import {
-  useAccount,
-  useEnsName,
-  useBalance,
-  useEnsAvatar,
-  useNetwork,
-} from "wagmi";
+import { useAccount, useBalance } from "wagmi";
+import { useLens } from "../../contexts/LensContext";
 import slicedAddress from "../../utils/slicedAddress";
 import Identicon from "./Identicon";
 
@@ -15,14 +10,10 @@ type Props = {
 
 const AccountInfo = ({ handleOpenModal }: Props) => {
   const { data: account } = useAccount();
-  const { data: ensName } = useEnsName({ address: account?.address });
   const { data: etherBalance, isLoading: isBalanceLoading } = useBalance({
     addressOrName: account?.address,
   });
-
-  const { data: ensAvatar } = useEnsAvatar({
-    addressOrName: account?.address,
-  });
+  const { lensHandle, lensAvatar } = useLens();
 
   return account?.address ? (
     <Center mr="1rem">
@@ -61,15 +52,15 @@ const AccountInfo = ({ handleOpenModal }: Props) => {
           h="38px"
         >
           <Text color="white" fontSize="md" fontWeight="medium" mr="2">
-            {ensName ?? slicedAddress(account.address)}
+            {lensHandle ?? slicedAddress(account.address)}
           </Text>
-          {ensAvatar ? (
+          {lensAvatar ? (
             <Image
-              src={ensAvatar}
+              src={lensAvatar}
               w="24px"
               h="24px"
               rounded={"full"}
-              alt="ens avatar"
+              alt="lens avatar"
             />
           ) : (
             <Identicon />

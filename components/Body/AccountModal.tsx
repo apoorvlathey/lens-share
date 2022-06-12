@@ -13,7 +13,8 @@ import {
   Text,
 } from "@chakra-ui/react";
 import { ExternalLinkIcon, CopyIcon } from "@chakra-ui/icons";
-import { useAccount, useEnsName, useDisconnect } from "wagmi";
+import { useAccount, useDisconnect } from "wagmi";
+import { useLens } from "../../contexts/LensContext";
 import Identicon from "./Identicon";
 import slicedAddress from "../../utils/slicedAddress";
 import { targetChain } from "../../config";
@@ -25,8 +26,9 @@ type Props = {
 
 const AccountModal = ({ isOpen, onClose }: Props) => {
   const { data: account } = useAccount();
-  const { data: ensName } = useEnsName({ address: account?.address });
   const { disconnect } = useDisconnect();
+
+  const { lensHandle } = useLens();
 
   function handleDisconnectAccount() {
     disconnect();
@@ -97,7 +99,7 @@ const AccountModal = ({ isOpen, onClose }: Props) => {
                 ml="2"
                 lineHeight="1.1"
               >
-                {ensName ??
+                {lensHandle ??
                   (account &&
                     account.address &&
                     slicedAddress(account.address))}
