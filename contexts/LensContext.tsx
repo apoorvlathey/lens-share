@@ -169,29 +169,31 @@ const getImageMimeType = async (url: string) => {
 };
 
 type LensContextType = {
+  isFetchingProfile: boolean;
   lensHandle?: string;
   lensAvatar?: string;
   profileId?: string;
   createPost: Function;
-  loadingText?: string;
-  isLoading: boolean;
+  postingText?: string;
+  isPosting: boolean;
 };
 
 export const LensContext = createContext<LensContextType>({
   createPost: () => {},
-  isLoading: false,
+  isPosting: false,
+  isFetchingProfile: false,
 });
 
 export const LensProvider = ({ children }: { children?: React.ReactNode }) => {
   const [lensHandle, setLensHandle] = useState<string>();
   const [lensAvatar, setLensAvatar] = useState<string>();
   const [profileId, setProfileId] = useState<string>();
-  const [authenticationToken, setAuthenticationToken] = useState<string>();
 
   const toast = useToast();
 
+  const [isFetchingProfile, setIsFetchingProfile] = useState<boolean>(false);
   const [loadingText, setLoadingText] = useState<string>();
-  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [isPosting, setIsPosting] = useState<boolean>(false);
 
   const { data: account } = useAccount();
 
@@ -210,7 +212,7 @@ export const LensProvider = ({ children }: { children?: React.ReactNode }) => {
   const { signTypedDataAsync: signTypedData, isLoading: isSigningTypedData } =
     useSignTypedData({
       onSettled(data) {
-        setIsLoading(false);
+        setIsPosting(false);
       },
       onError(error) {
         toast({
@@ -223,45 +225,46 @@ export const LensProvider = ({ children }: { children?: React.ReactNode }) => {
         });
       },
     });
-  const { writeAsync: postWithSig, isLoading: isPosting } = useContractWrite(
-    {
-      addressOrName: config.lensHubProxy,
-      contractInterface: LensHubABI,
-    },
-    "postWithSig",
-    {
-      onError(error) {
-        toast({
-          title: "Error",
-          description: error.message,
-          status: "error",
-          position: "bottom-right",
-          isClosable: true,
-          duration: 4000,
-        });
+  const { writeAsync: postWithSig, isLoading: postTxnIsLoading } =
+    useContractWrite(
+      {
+        addressOrName: config.lensHubProxy,
+        contractInterface: LensHubABI,
       },
-      async onSuccess(data) {
-        toast({
-          title: "Transaction initiated",
-          status: "info",
-          position: "bottom-right",
-          isClosable: true,
-          duration: 5000,
-        });
-        await data.wait();
-        toast({
-          title: "Posted Successfully",
-          status: "success",
-          position: "bottom-right",
-          isClosable: true,
-          duration: 5000,
-        });
-      },
-    }
-  );
+      "postWithSig",
+      {
+        onError(error) {
+          toast({
+            title: "Error",
+            description: error.message,
+            status: "error",
+            position: "bottom-right",
+            isClosable: true,
+            duration: 4000,
+          });
+        },
+        async onSuccess(data) {
+          toast({
+            title: "Transaction initiated",
+            status: "info",
+            position: "bottom-right",
+            isClosable: true,
+            duration: 5000,
+          });
+          await data.wait();
+          toast({
+            title: "Posted Successfully",
+            status: "success",
+            position: "bottom-right",
+            isClosable: true,
+            duration: 5000,
+          });
+        },
+      }
+    );
 
   const login = async () => {
-    if (authenticationToken) {
+    if (localStorage.getItem("accessToken")) {
       console.log("login: already logged in");
       return;
     }
@@ -278,8 +281,6 @@ export const LensProvider = ({ children }: { children?: React.ReactNode }) => {
     prettyJSON("login: result", tokens.data);
     localStorage.setItem("accessToken", tokens.data.authenticate.accessToken);
     localStorage.setItem("refreshToken", tokens.data.authenticate.refreshToken);
-
-    setAuthenticationToken(tokens.data.authenticate.accessToken);
   };
 
   const createPost = async (tweetText: string, tweetMedia?: TweetMedia[]) => {
@@ -369,6 +370,8 @@ export const LensProvider = ({ children }: { children?: React.ReactNode }) => {
 
   useEffect(() => {
     const fetchProfile = async () => {
+      setIsFetchingProfile(true);
+
       const res = await getDefaultProfile(account!.address!);
       const defaultProfile = res.data.defaultProfile;
 
@@ -390,6 +393,8 @@ export const LensProvider = ({ children }: { children?: React.ReactNode }) => {
         setLensHandle(undefined);
         setLensHandle(undefined);
       }
+
+      setIsFetchingProfile(false);
     };
 
     if (account?.address) {
@@ -419,21 +424,22 @@ export const LensProvider = ({ children }: { children?: React.ReactNode }) => {
 
   useEffect(() => {
     if (loadingText) {
-      setIsLoading(true);
+      setIsPosting(true);
     } else {
-      setIsLoading(false);
+      setIsPosting(false);
     }
   }, [loadingText]);
 
   return (
     <LensContext.Provider
       value={{
+        isFetchingProfile,
         lensHandle,
         lensAvatar,
         profileId,
         createPost,
-        loadingText,
-        isLoading,
+        postingText: loadingText,
+        isPosting,
       }}
     >
       {children}

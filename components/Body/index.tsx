@@ -15,7 +15,7 @@ import {
   Link,
   Heading,
 } from "@chakra-ui/react";
-import { useAccount } from "wagmi";
+import { useAccount, useProvider } from "wagmi";
 import axios from "axios";
 const ConnectWallet = dynamic(() => import("./ConnectWallet"), {
   ssr: false,
@@ -31,7 +31,13 @@ function Body() {
   const [tweetText, setTweetText] = useState<string>();
   const [tweetMedia, setTweetMedia] = useState<TweetMedia[]>();
 
-  const { lensHandle, createPost, loadingText, isLoading } = useLens();
+  const {
+    isFetchingProfile,
+    lensHandle,
+    createPost,
+    postingText: loadingText,
+    isPosting,
+  } = useLens();
 
   const onPaste = async (e: React.ClipboardEvent) => {
     setIsFetching(true);
@@ -81,7 +87,7 @@ function Body() {
       justifyContent="flex-start"
       alignItems="center"
       bgGradient={
-        "linear-gradient(45deg, rgba(69,182,73,1) 0%, rgba(235,244,64,1) 100%)"
+        "linear-gradient(45deg, rgba(69,182,73,1) 0%, rgba(235,244,64,1) 110%)"
       }
     >
       {!tweetText && (
@@ -113,7 +119,7 @@ function Body() {
                 onPaste={onPaste}
               />
               {!account?.address && <ConnectWallet />}
-              {account?.address && !lensHandle && (
+              {account?.address && !lensHandle && !isFetchingProfile && (
                 <VStack pt="2rem">
                   <Text
                     fontWeight={"bold"}
@@ -147,7 +153,7 @@ function Body() {
               }}
               boxShadow="lg"
               onClick={() => createPost(tweetText, tweetMedia)}
-              isLoading={isLoading}
+              isLoading={isPosting}
               loadingText={loadingText}
             >
               POST 🌿

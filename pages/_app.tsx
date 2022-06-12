@@ -1,4 +1,5 @@
 import type { AppProps } from "next/app";
+import { useMemo } from "react";
 import { ChakraProvider } from "@chakra-ui/react";
 import "@fontsource/poppins";
 import theme from "../styles/theme";
@@ -20,21 +21,25 @@ const { chains, provider } = configureChains(
   ]
 );
 
-const client = createClient({
-  autoConnect: true,
-  connectors: [
-    new InjectedConnector({
-      chains,
-      options: {
-        shimChainChangedDisconnect: true,
-        shimDisconnect: true,
-      },
-    }),
-  ],
-  provider,
-});
-
 function MyApp({ Component, pageProps }: AppProps) {
+  const client = useMemo(
+    () =>
+      createClient({
+        autoConnect: true,
+        connectors: [
+          new InjectedConnector({
+            chains,
+            options: {
+              // shimChainChangedDisconnect: true,
+              shimDisconnect: true,
+            },
+          }),
+        ],
+        provider,
+      }),
+    [chains, provider]
+  );
+
   return (
     <ChakraProvider theme={theme}>
       <WagmiConfig client={client}>
