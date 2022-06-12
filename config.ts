@@ -12,3 +12,5 @@ export const chainIdToConfig = {
     apiURL: "https://api.lens.dev",
   },
 };
+
+export const config = chainIdToConfig[targetChain.id];

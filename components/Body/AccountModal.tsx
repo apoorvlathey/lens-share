@@ -11,6 +11,7 @@ import {
   ModalBody,
   ModalCloseButton,
   Text,
+  Image,
 } from "@chakra-ui/react";
 import { ExternalLinkIcon, CopyIcon } from "@chakra-ui/icons";
 import { useAccount, useDisconnect } from "wagmi";
@@ -28,7 +29,7 @@ const AccountModal = ({ isOpen, onClose }: Props) => {
   const { data: account } = useAccount();
   const { disconnect } = useDisconnect();
 
-  const { lensHandle } = useLens();
+  const { lensHandle, lensAvatar } = useLens();
 
   function handleDisconnectAccount() {
     disconnect();
@@ -91,7 +92,17 @@ const AccountModal = ({ isOpen, onClose }: Props) => {
               </Button>
             </Flex>
             <Flex alignItems="center" mt={2} mb={4} lineHeight={1}>
-              <Identicon />
+              {lensAvatar ? (
+                <Image
+                  src={lensAvatar}
+                  w="24px"
+                  h="24px"
+                  rounded={"full"}
+                  alt="lens avatar"
+                />
+              ) : (
+                <Identicon />
+              )}
               <Text
                 color="white"
                 fontSize="xl"
