@@ -27,6 +27,7 @@ const client = createClient({
       chains,
       options: {
         shimChainChangedDisconnect: true,
+        shimDisconnect: true,
       },
     }),
   ],

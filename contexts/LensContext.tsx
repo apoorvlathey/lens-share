@@ -1,4 +1,5 @@
 import { createContext, useContext, useEffect, useState } from "react";
+import { useToast } from "@chakra-ui/react";
 import { apolloClient } from "../apollo-client";
 import { gql } from "@apollo/client";
 import {
@@ -172,10 +173,13 @@ type LensContextType = {
   lensAvatar?: string;
   profileId?: string;
   createPost: Function;
+  loadingText?: string;
+  isLoading: boolean;
 };
 
 export const LensContext = createContext<LensContextType>({
   createPost: () => {},
+  isLoading: false,
 });
 
 export const LensProvider = ({ children }: { children?: React.ReactNode }) => {
@@ -184,16 +188,76 @@ export const LensProvider = ({ children }: { children?: React.ReactNode }) => {
   const [profileId, setProfileId] = useState<string>();
   const [authenticationToken, setAuthenticationToken] = useState<string>();
 
+  const toast = useToast();
+
+  const [loadingText, setLoadingText] = useState<string>();
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+
   const { data: account } = useAccount();
 
-  const { signMessageAsync: signMessage } = useSignMessage();
-  const { signTypedDataAsync: signTypedData } = useSignTypedData();
-  const { writeAsync: postWithSig } = useContractWrite(
+  const { signMessageAsync: signMessage } = useSignMessage({
+    onError(error) {
+      toast({
+        title: "Error",
+        description: error.message,
+        status: "error",
+        position: "bottom-right",
+        isClosable: true,
+        duration: 4000,
+      });
+    },
+  });
+  const { signTypedDataAsync: signTypedData, isLoading: isSigningTypedData } =
+    useSignTypedData({
+      onSettled(data) {
+        setIsLoading(false);
+      },
+      onError(error) {
+        toast({
+          title: "Error",
+          description: error.message,
+          status: "error",
+          position: "bottom-right",
+          isClosable: true,
+          duration: 4000,
+        });
+      },
+    });
+  const { writeAsync: postWithSig, isLoading: isPosting } = useContractWrite(
     {
       addressOrName: config.lensHubProxy,
       contractInterface: LensHubABI,
     },
-    "postWithSig"
+    "postWithSig",
+    {
+      onError(error) {
+        toast({
+          title: "Error",
+          description: error.message,
+          status: "error",
+          position: "bottom-right",
+          isClosable: true,
+          duration: 4000,
+        });
+      },
+      async onSuccess(data) {
+        toast({
+          title: "Transaction pending...",
+          status: "info",
+          position: "bottom-right",
+          isClosable: true,
+          duration: 5000,
+        });
+        await data.wait();
+        toast({
+          title: "Posted Successfully",
+          status: "success",
+          position: "bottom-right",
+          isClosable: true,
+          duration: 5000,
+        });
+      },
+    }
   );
 
   const login = async () => {
@@ -224,6 +288,8 @@ export const LensProvider = ({ children }: { children?: React.ReactNode }) => {
       return;
     }
     await login();
+
+    setLoadingText("Uploading to IPFS");
 
     let image: null | string = null;
     let imageMimeType: null | string = null;
@@ -337,6 +403,28 @@ export const LensProvider = ({ children }: { children?: React.ReactNode }) => {
     }
   }, [lensHandle]);
 
+  useEffect(() => {
+    if (isSigningTypedData) {
+      setLoadingText("Signing");
+    }
+  }, [isSigningTypedData]);
+
+  useEffect(() => {
+    if (isPosting) {
+      setLoadingText("Posting");
+    } else {
+      setLoadingText(undefined);
+    }
+  }, [isPosting]);
+
+  useEffect(() => {
+    if (loadingText) {
+      setIsLoading(true);
+    } else {
+      setIsLoading(false);
+    }
+  }, [loadingText]);
+
   return (
     <LensContext.Provider
       value={{
@@ -344,6 +432,8 @@ export const LensProvider = ({ children }: { children?: React.ReactNode }) => {
         lensAvatar,
         profileId,
         createPost,
+        loadingText,
+        isLoading,
       }}
     >
       {children}

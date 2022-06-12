@@ -28,7 +28,7 @@ function Body() {
   const [tweetText, setTweetText] = useState<string>();
   const [tweetMedia, setTweetMedia] = useState<TweetMedia[]>();
 
-  const { createPost } = useLens();
+  const { createPost, loadingText, isLoading } = useLens();
 
   const onPaste = async (e: React.ClipboardEvent) => {
     setIsFetching(true);
@@ -98,7 +98,7 @@ function Body() {
                   color: "gray.300",
                 }}
                 isReadOnly={!account?.address}
-                cursor={!account?.address ? "not-allowed" : "auto"}
+                cursor={!account?.address ? "not-allowed" : "text"}
                 onPaste={onPaste}
               />
               {!account?.address && <ConnectWallet />}
@@ -119,6 +119,8 @@ function Body() {
               }}
               boxShadow="lg"
               onClick={() => createPost(tweetText, tweetMedia)}
+              isLoading={isLoading}
+              loadingText={loadingText}
             >
               POST 🌿
             </Button>
@@ -130,7 +132,7 @@ function Body() {
               bgColor={"white"}
               rounded="xl"
             >
-              <Text>{tweetText}</Text>
+              <Text whiteSpace={"pre-line"}>{tweetText}</Text>
               <Flex mt="1rem">
                 {tweetMedia &&
                   tweetMedia.map((m, i) => {
