@@ -23,6 +23,7 @@ export default async function handler(
     params: {
       expansions: "attachments.media_keys",
       "media.fields": "media_key,type,url,preview_image_url",
+      "tweet.fields": "entities",
     },
   });
   res.status(200).json(response.data);

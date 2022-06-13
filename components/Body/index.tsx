@@ -72,7 +72,17 @@ function Body() {
         );
 
         // remove t.co link from tweet text
+        // (twitter auto adds t.co link for the tweet itself in case media is present)
         _tweetText = _tweetText.split("https://t.co/").slice(0, -1).join("");
+      }
+
+      if (resData.data.entities && resData.data.entities.urls) {
+        const urls = resData.data.entities.urls;
+        for (var i = 0; i < urls.length; i++) {
+          const tempArr = _tweetText.split(urls[i].url);
+          tempArr.splice(1, 0, urls[i].unwound_url);
+          _tweetText = tempArr.join("");
+        }
       }
 
       console.log({ _tweetText, _tweetMedia });
