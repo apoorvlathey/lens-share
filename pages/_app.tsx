@@ -1,7 +1,8 @@
 import type { AppProps } from "next/app";
 import { useMemo } from "react";
 import { ChakraProvider } from "@chakra-ui/react";
-import "@fontsource/poppins";
+import "@fontsource/poppins/500.css";
+import "@fontsource/poppins/400.css";
 import theme from "../styles/theme";
 import { WagmiConfig, createClient, configureChains } from "wagmi";
 import { jsonRpcProvider } from "wagmi/providers/jsonRpc";

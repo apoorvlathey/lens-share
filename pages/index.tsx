@@ -3,6 +3,7 @@ import Head from "next/head";
 import { Flex } from "@chakra-ui/react";
 import Navbar from "../components/Navbar";
 import Body from "../components/Body";
+import Footer from "../components/Footer";
 
 const Home: NextPage = () => {
   return (
@@ -14,6 +15,7 @@ const Home: NextPage = () => {
       <Flex flexDir={"column"} minH="100vh">
         <Navbar />
         <Body />
+        <Footer />
       </Flex>
     </>
   );

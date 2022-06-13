@@ -91,7 +91,7 @@ function Body() {
       }
     >
       {!tweetText && (
-        <Heading pt="10rem" color="white">
+        <Heading pt="10rem" color="white" fontFamily="Poppins">
           Post your Tweets to Lens Protocol 🌿
         </Heading>
       )}

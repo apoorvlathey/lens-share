@@ -17,7 +17,7 @@ function Navbar() {
           fontSize={"2xl"}
           color="white"
           fontFamily={"Poppins"}
-          fontWeight={800}
+          fontWeight={500}
         >
           Lens share
         </Heading>
