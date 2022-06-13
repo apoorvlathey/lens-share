@@ -103,7 +103,12 @@ function Body() {
     >
       {!tweetText && (
         <Heading pt="10rem" color="white" fontFamily="Poppins">
-          Post your Tweets to Lens Protocol 🌿
+          <HStack>
+            <Text>Post your Tweets to Lens Protocol</Text>
+            <Box color="transparent" textShadow={"0 0 0 white"}>
+              🌿
+            </Box>
+          </HStack>
         </Heading>
       )}
       <Center pt="5rem" flexDir={"column"}>
