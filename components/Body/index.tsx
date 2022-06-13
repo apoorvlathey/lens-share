@@ -102,12 +102,15 @@ function Body() {
       }
     >
       {!tweetText && (
-        <Heading pt="10rem" color="white" fontFamily="Poppins">
-          <HStack>
-            <Text>Post your Tweets to Lens Protocol</Text>
-            <Box color="transparent" textShadow={"0 0 0 white"}>
-              🌿
-            </Box>
+        <Heading
+          pt={["6rem", "7rem", "10rem"]}
+          color="white"
+          fontFamily="Poppins"
+        >
+          <HStack px="1rem">
+            <Text color="transparent" textShadow={"0 0 0 white"}>
+              Post your Tweets to Lens Protocol 🌿
+            </Text>
           </HStack>
         </Heading>
       )}
@@ -122,7 +125,7 @@ function Body() {
             <VStack>
               <Input
                 bgColor={"white"}
-                w="35rem"
+                minW={["18rem", "25rem", "35rem", "35rem"]}
                 borderColor={"green.800"}
                 rounded={"lg"}
                 autoComplete="off"
