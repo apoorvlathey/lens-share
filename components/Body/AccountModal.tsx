@@ -12,6 +12,8 @@ import {
   ModalCloseButton,
   Text,
   Image,
+  HStack,
+  Divider,
 } from "@chakra-ui/react";
 import { ExternalLinkIcon, CopyIcon } from "@chakra-ui/icons";
 import { useAccount, useDisconnect } from "wagmi";
@@ -116,6 +118,30 @@ const AccountModal = ({ isOpen, onClose }: Props) => {
                     slicedAddress(account.address))}
               </Text>
             </Flex>
+            {lensHandle && (
+              <>
+                <Link
+                  href={`https://${
+                    process.env.NEXT_PUBLIC_USE_TESTNET ? "testnet." : ""
+                  }lenster.xyz/u/${lensHandle}`}
+                  isExternal
+                >
+                  <HStack
+                    mx={3}
+                    color="white"
+                    _hover={{
+                      textDecoration: "none",
+                      color: "whiteAlpha.800",
+                    }}
+                  >
+                    <ExternalLinkIcon />
+                    <Text>View on Lenster </Text>
+                    <Image src="/lenster.svg" w="20px" h="20px" alt="lenster" />
+                  </HStack>
+                </Link>
+                <Divider mt="0.5rem" />
+              </>
+            )}
             <Flex alignContent="center" m={3}>
               <Button
                 variant="link"
