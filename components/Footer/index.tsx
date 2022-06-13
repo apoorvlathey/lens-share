@@ -1,5 +1,6 @@
+import NextImage from "next/image";
 import React from "react";
-import { Image, Center, Heading, Link, HStack, Text } from "@chakra-ui/react";
+import { Center, Heading, Link, HStack, Text } from "@chakra-ui/react";
 import { ExternalLinkIcon } from "@chakra-ui/icons";
 
 const Footer = () => {
@@ -7,7 +8,7 @@ const Footer = () => {
     <Center py="1.5rem" bgColor={"green.500"} color="white">
       <Heading size={"md"} fontFamily="Poppins" fontWeight={500}>
         <HStack>
-          <Image src="/lens.png" w="24px" h="24px" alt="lens" />
+          <NextImage src="/lens.png" width="24px" height="24px" alt="lens" />
           <Text>Built by</Text>
           <Link
             textDecor={"underline"}

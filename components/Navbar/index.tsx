@@ -1,5 +1,6 @@
+import NextImage from "next/image";
 import React from "react";
-import { Flex, Heading, Image, HStack, Spacer, Box } from "@chakra-ui/react";
+import { Flex, Heading, HStack, Spacer, Box } from "@chakra-ui/react";
 import Account from "../Body/Account";
 
 function Navbar() {
@@ -11,7 +12,7 @@ function Navbar() {
       boxShadow="xl"
     >
       <HStack py="1rem" pl="1rem">
-        <Image src="/leaf.png" w="3rem" alt="logo" />
+        <NextImage src="/leaf.png" width="48px" height="41px" alt="logo" />
         <Heading
           pl="0.5rem"
           fontSize={"2xl"}

@@ -1,3 +1,4 @@
+import NextImage from "next/image";
 import {
   Box,
   Button,
@@ -138,7 +139,12 @@ const AccountModal = ({ isOpen, onClose }: Props) => {
                   >
                     <ExternalLinkIcon />
                     <Text>View on Lenster </Text>
-                    <Image src="/lenster.svg" w="20px" h="20px" alt="lenster" />
+                    <NextImage
+                      src="/lenster.svg"
+                      width="20px"
+                      height="20px"
+                      alt="lenster"
+                    />
                   </HStack>
                 </Link>
                 <Divider mt="0.5rem" />
