@@ -15,6 +15,7 @@ import {
   Image,
   HStack,
   Divider,
+  Center,
 } from "@chakra-ui/react";
 import { ExternalLinkIcon, CopyIcon } from "@chakra-ui/icons";
 import { useAccount, useDisconnect } from "wagmi";
@@ -139,15 +140,14 @@ const AccountModal = ({ isOpen, onClose }: Props) => {
                   >
                     <ExternalLinkIcon />
                     <Text>View on Lenster </Text>
-                    <NextImage
-                      src="/lenster.svg"
-                      width="24px"
-                      height="24px"
-                      style={{
-                        paddingLeft: "0.3rem",
-                      }}
-                      alt="lenster"
-                    />
+                    <Center>
+                      <NextImage
+                        src="/lenster.svg"
+                        width="18px"
+                        height="18px"
+                        alt="lenster"
+                      />
+                    </Center>
                   </HStack>
                 </Link>
                 <Divider mt="0.5rem" />
