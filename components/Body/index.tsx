@@ -147,8 +147,8 @@ function Body() {
                   >{`⚠️ Lens Profile doesn't exist`}</Text>
                   <HStack color="white">
                     <Text>Claim your profile at</Text>
-                    <Link href="https://www.lensfrens.xyz/" isExternal>
-                      https://www.lensfrens.xyz/ <ExternalLinkIcon />
+                    <Link href="https://claim.lens.xyz/" isExternal>
+                      https://claim.lens.xyz/ <ExternalLinkIcon />
                     </Link>
                   </HStack>
                 </VStack>
