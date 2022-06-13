@@ -1,14 +1,21 @@
 import type { NextPage } from "next";
+import Head from "next/head";
 import { Flex } from "@chakra-ui/react";
 import Navbar from "../components/Navbar";
 import Body from "../components/Body";
 
 const Home: NextPage = () => {
   return (
-    <Flex flexDir={"column"} minH="100vh">
-      <Navbar />
-      <Body />
-    </Flex>
+    <>
+      <Head>
+        <title>Lens share</title>
+        <link rel="icon" href="/leaf.png" />
+      </Head>
+      <Flex flexDir={"column"} minH="100vh">
+        <Navbar />
+        <Body />
+      </Flex>
+    </>
   );
 };
 

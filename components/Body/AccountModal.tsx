@@ -122,7 +122,9 @@ const AccountModal = ({ isOpen, onClose }: Props) => {
               <>
                 <Link
                   href={`https://${
-                    process.env.NEXT_PUBLIC_USE_TESTNET ? "testnet." : ""
+                    process.env.NEXT_PUBLIC_USE_TESTNET === "true"
+                      ? "testnet."
+                      : ""
                   }lenster.xyz/u/${lensHandle}`}
                   isExternal
                 >

@@ -415,12 +415,12 @@ export const LensProvider = ({ children }: { children?: React.ReactNode }) => {
   }, [isSigningTypedData]);
 
   useEffect(() => {
-    if (isPosting) {
+    if (postTxnIsLoading) {
       setLoadingText("Posting");
     } else {
       setLoadingText(undefined);
     }
-  }, [isPosting]);
+  }, [postTxnIsLoading]);
 
   useEffect(() => {
     if (loadingText) {
