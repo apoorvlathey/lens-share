@@ -16,16 +16,16 @@ const AccountInfo = ({ handleOpenModal }: Props) => {
   const { lensHandle, lensAvatar } = useLens();
 
   return account?.address ? (
-    <Center mr="1rem">
+    <Center pr={["0", "0", "4"]}>
       <Box
+        py="1"
+        px="2"
         display="flex"
         alignItems="center"
         background="green.500"
         borderRadius="xl"
-        py="1"
-        pr="2"
       >
-        <Box px="3">
+        <Box pr={["0", "2", "3"]} display={["none", "flex", "flex"]}>
           <Text color="white" fontSize="md">
             {isBalanceLoading && <Skeleton rounded={"lg"}>0.00 ETH</Skeleton>}
             {etherBalance && (
@@ -37,7 +37,9 @@ const AccountInfo = ({ handleOpenModal }: Props) => {
           </Text>
         </Box>
         <Button
-          onClick={handleOpenModal}
+          m="1px"
+          px={[4, 3, 3]}
+          h="38px"
           bg="green.700"
           border="1px solid transparent"
           _hover={{
@@ -47,9 +49,7 @@ const AccountInfo = ({ handleOpenModal }: Props) => {
             backgroundColor: "gray.700",
           }}
           borderRadius="xl"
-          m="1px"
-          px={3}
-          h="38px"
+          onClick={handleOpenModal}
         >
           <Text color="white" fontSize="md" fontWeight="medium" mr="2">
             {lensHandle ?? slicedAddress(account.address)}
