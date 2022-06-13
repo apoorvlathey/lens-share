@@ -18,7 +18,7 @@ import {
   Center,
 } from "@chakra-ui/react";
 import { ExternalLinkIcon, CopyIcon } from "@chakra-ui/icons";
-import { useAccount, useDisconnect } from "wagmi";
+import { useAccount, useDisconnect, useNetwork } from "wagmi";
 import { useLens } from "../../contexts/LensContext";
 import Identicon from "./Identicon";
 import slicedAddress from "../../utils/slicedAddress";
@@ -31,6 +31,7 @@ type Props = {
 
 const AccountModal = ({ isOpen, onClose }: Props) => {
   const { data: account } = useAccount();
+  const { activeChain, switchNetwork, isLoading } = useNetwork();
   const { disconnect } = useDisconnect();
 
   const { lensHandle, lensAvatar } = useLens();
@@ -120,6 +121,20 @@ const AccountModal = ({ isOpen, onClose }: Props) => {
                     slicedAddress(account.address))}
               </Text>
             </Flex>
+            {activeChain && activeChain?.unsupported && (
+              <Center pb="2">
+                <Button
+                  size="sm"
+                  colorScheme={"green"}
+                  onClick={() => {
+                    switchNetwork!(targetChain.id);
+                  }}
+                  isLoading={isLoading}
+                >
+                  ⚠️ Switch to {targetChain.name} Network
+                </Button>
+              </Center>
+            )}
             {lensHandle && (
               <>
                 <Link
