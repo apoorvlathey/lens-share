@@ -141,8 +141,11 @@ const AccountModal = ({ isOpen, onClose }: Props) => {
                     <Text>View on Lenster </Text>
                     <NextImage
                       src="/lenster.svg"
-                      width="20px"
-                      height="20px"
+                      width="24px"
+                      height="24px"
+                      style={{
+                        paddingLeft: "0.3rem",
+                      }}
                       alt="lenster"
                     />
                   </HStack>
