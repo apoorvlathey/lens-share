@@ -63,6 +63,7 @@ function Body() {
     try {
       const res = await axios(`/api/getTweet/${_tweetId}`);
       const { data: resData } = res;
+      console.log({ resData });
       let _tweetText = htmlDecode(resData.data.text);
 
       let _tweetMedia;
@@ -73,7 +74,10 @@ function Body() {
 
         // remove t.co link from tweet text
         // (twitter auto adds t.co link for the tweet itself in case media is present)
-        _tweetText = _tweetText.split("https://t.co/").slice(0, -1).join("");
+        _tweetText = _tweetText
+          .split("https://t.co/")
+          .slice(0, -1)
+          .join("https://t.co/"); // joining this because a tweet can have multiple t.co links
       }
 
       if (resData.data.entities && resData.data.entities.urls) {
