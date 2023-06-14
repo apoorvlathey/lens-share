@@ -1,4 +1,5 @@
 import type { AppProps } from "next/app";
+import Script from "next/script";
 import { ChakraProvider } from "@chakra-ui/react";
 import "@fontsource/poppins/500.css";
 import "@fontsource/poppins/400.css";
@@ -10,6 +11,8 @@ import { WalletConnectConnector } from "wagmi/connectors/walletConnect";
 import { ActiveChainProvider } from "../contexts/ActiveChainContext";
 import { LensProvider } from "../contexts/LensContext";
 import { targetChain } from "../config";
+
+const GA_ID = "G-GRSTHJ7MXH";
 
 const { chains, provider } = configureChains(
   [targetChain],
@@ -44,15 +47,33 @@ const client = createClient({
 
 const MyApp = ({ Component, pageProps }: AppProps) => {
   return (
-    <ChakraProvider theme={theme}>
-      <WagmiConfig client={client}>
-        <ActiveChainProvider>
-          <LensProvider>
-            <Component {...pageProps} />
-          </LensProvider>
-        </ActiveChainProvider>
-      </WagmiConfig>
-    </ChakraProvider>
+    <>
+      <Script
+        strategy="afterInteractive"
+        src={`https://www.googletagmanager.com/gtag/js?id=${GA_ID}`}
+      />
+      <Script
+        id="google-analytics"
+        strategy="afterInteractive"
+        dangerouslySetInnerHTML={{
+          __html: `
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments);}
+          gtag('js', new Date());
+          gtag('config', '${GA_ID}');
+        `,
+        }}
+      />
+      <ChakraProvider theme={theme}>
+        <WagmiConfig client={client}>
+          <ActiveChainProvider>
+            <LensProvider>
+              <Component {...pageProps} />
+            </LensProvider>
+          </ActiveChainProvider>
+        </WagmiConfig>
+      </ChakraProvider>
+    </>
   );
 };
 
